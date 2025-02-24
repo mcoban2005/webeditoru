@@ -1,0 +1,135 @@
+@model ECommerce.Models.UserRegistrationModel
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Kullanıcı Kaydı</div>
+                <div class="card-body">
+                    <form asp-action="Register" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group row mb-3">
+                            <label asp-for="Username" class="col-md-4 col-form-label text-md-right"></label>
+                            <div class="col-md-6">
+                                <input asp-for="Username" class="form-control" />
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label asp-for="Email" class="col-md-4 col-form-label text-md-right"></label>
+                            <div class="col-md-6">
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label asp-for="Password" class="col-md-4 col-form-label text-md-right"></label>
+                            <div class="col-md-6">
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label asp-for="ConfirmPassword" class="col-md-4 col-form-label text-md-right"></label>
+                            <div class="col-md-6">
+                                <input asp-for="ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label asp-for="FirstName" class="col-md-4 col-form-label text-md-right"></label>
+                            <div class="col-md-6">
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label asp-for="LastName" class="col-md-4 col-form-label text-md-right"></label>
+                            <div class="col-md-6">
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label asp-for="DateOfBirth" class="col-md-4 col-form-label text-md-right"></label>
+                            <div class="col-md-6">
+                                <input asp-for="DateOfBirth" class="form-control" type="date" />
+                                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label asp-for="PhoneNumber" class="col-md-4 col-form-label text-md-right"></label>
+                            <div class="col-md-6">
+                                <input asp-for="PhoneNumber" class="form-control" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="form-check">
+                                    <input asp-for="SubscribeNewsletter" class="form-check-input" />
+                                    <label asp-for="SubscribeNewsletter" class="form-check-label"></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <div class="col-md-6 offset-md-4">
+                                <div class="form-check">
+                                    <input asp-for="AcceptTerms" class="form-check-input" />
+                                    <label asp-for="AcceptTerms" class="form-check-label"></label>
+                                    <span asp-validation-for="AcceptTerms" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Kayıt Ol
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        $(document).ready(function () {
+            // Custom client-side validation
+            $.validator.addMethod("minimumAge", function (value, element, minAge) {
+                if (value) {
+                    var today = new Date();
+                    var birthDate = new Date(value);
+                    var age = today.getFullYear() - birthDate.getFullYear();
+                    
+                    if (today.getMonth() < birthDate.getMonth() || 
+                        (today.getMonth() == birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+                        age--;
+                    }
+                    
+                    return age >= minAge;
+                }
+                return true;
+            }, "18 yaşından küçükler kayıt olamaz.");
+
+            // Apply custom validation
+            $("#DateOfBirth").rules("add", { minimumAge: 18 });
+        });
+    </script>
+} 
